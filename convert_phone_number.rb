@@ -1,4 +1,5 @@
 class ConvertPhoneNumber
+  
   def is_invalid_phone_number?(phone_number)
     if phone_number.nil?
       puts "Phone Number can't be Blank..."
@@ -12,16 +13,8 @@ class ConvertPhoneNumber
   end
 
   def dictionary_source
-    dictionary_hash = {}
     file_path = "dictionary.txt"
-    File.foreach(file_path) do |row|
-      if dictionary_hash[row.length]
-        dictionary_hash[row.length] << row.chop.to_s.downcase
-      else
-        dictionary_hash[row.length] = [row.chop.to_s.downcase]
-      end
-    end
-    dictionary_hash
+    File.readlines(file_path).map{|w| w.downcase.strip}
   end
 
   def selected_key_char_mapping(phone_number)
@@ -43,13 +36,17 @@ class ConvertPhoneNumber
     unless is_invalid_phone_number?(phone_number)
       return []
     end
-    
-    #Gives All words of dictionary into hash
-    dictionary_hash = dictionary_source
-
-    #Get All chars of from input to process/build words
-    selected_key_chars = selected_key_char_mapping(phone_number)
+    @dictionary_data = dictionary_source
+    puts @dictionary_data.bsearch { |status| "motor" <=> status } == "motor"
+    puts @dictionary_data.bsearch { |status| "struck" <=> status } == "struck"
 
     results = {}
+
   end
+
+
+
+
 end
+
+ConvertPhoneNumber.new.convert_numbers(ARGV[0])
